@@ -13,10 +13,8 @@ Section 1:
 Data Import and Preparation
 """
 
-data_path = 'assets/city_happiness_train_data.csv'
-df = pd.read_csv(data_path, sep=',', encoding='utf-8')
-df_2024 = df[df['Year'] == 2024]
-
+data_path = 'assets/Zufriedenheit_raw.csv'
+df = pd.read_csv(data_path, sep=';', encoding='utf-8')
 """
 -----------------------------------------------------------------------------------------
 Section 2:
@@ -24,43 +22,54 @@ Definition of Dash Layout
 """
 
 app.layout = html.Div([
-    html.Div([                          # Spalte 1
+    html.Div([                  # Spalte 1
         html.Div(
-            id='container_1',                   # Spalte 1 / Container 1
+            id='container_1',           # Spalte 1 / Container 1
             children=[
-                html.H1("Titel - Irgendeine Happiness Studie.."),
-                html.H2("Platzhalter für Einleitungstext..."),
-                html.P("Hier könnte ein weiterer Text stehen..."),
+                html.H1("Lebensqualität in der Schweiz"),
+                html.H2("Einschätzung der subjektiven Lebensqualität"),
+                html.P("Wie hat sich die Lebensqualität in der Schweiz entwickelt und welche Faktoren bilden dafür eine Rolle?"),
                 dcc.Dropdown(
                     id='dropdown_1',
-                    options=['red', 'green', 'orange'],
+                    options=[{'label': color, 'value': color} for color in ['red', 'green', 'orange']],
                     value='red',
-                    multi=False)]
+                    multi=False
+                )
+            ]
         ),
         html.Div(
-            id='container_2',                   # Spalte 1 / Container 2
+            id='container_2',           # Spalte 1 / Container 2
             children=[
                 html.P("Platzhalter für mehr Text ..."),
-                dcc.Graph(
-                    id='graph_1'),
+                dcc.Graph(id='graph_1'),
                 dcc.Slider(
                     id='slider_1',
-                    min=math.floor(df['Happiness_Score'].min()),
-                    max=math.ceil(df['Happiness_Score'].max()))]
-        )], className="columns_1_2"),           # Ende Spalte 1
-    html.Div([                          # Spalte 2
+                    min=df['Jahr'].min(),
+                    max=df['Jahr'].max()
+                )
+            ]
+        )
+    ], className="columns_1_2"),        # Ende Spalte 1
+
+    html.Div([  # Spalte 2
         html.Div(
-            id='container_3',                   # Spalte 2 / Container 1
+            id='container_3',           # Spalte 2 / Container 1
             children=[
                 dcc.Dropdown(
                     id='dropdown_2',
-                    options=['red', 'green', 'orange'],
+                    options=[{'label': color, 'value': color} for color in ['red', 'green', 'orange']],
                     value='red',
-                    multi=False),
-                dcc.Graph(
-                    id='graph_2')]
+                    multi=False
+                ),
+                dcc.Graph(id='graph_2'),
+                dcc.Dropdown(
+                    id='dropdown_3',
+                    options=[{'label': col, 'value': col} for col in df.columns],
+                    value=None,
+                    multi=False)
+            ]
         )
-    ], className="columns_1_2")            # Ende Spalte 2
+    ], className="columns_1_2")         # Ende Spalte 2
 ], className="row")
 
 """
@@ -75,10 +84,11 @@ Define Graph 1
 )
 
 def update_graph_1(color_menue):
-    fig = px.histogram(df_2024,
-                       x='Happiness_Score',
-                       title='Distribution of Happiness Score',
-                       color_discrete_sequence=[color_menue])
+    fig = px.line(df,
+                  x='Jahr',
+                  y='Allgemein',
+                  title='Entwicklung der subjektiven Zufriedenheit in der Schweiz',
+                  color_discrete_sequence=[color_menue])
     fig.update_layout(bargap=0.05)
     return fig
 
@@ -90,18 +100,16 @@ Define Graph 2
 
 @app.callback(
     Output('graph_2', 'figure'),
-    Input('dropdown_2', 'value')
+    Input('dropdown_2', 'value'),
+    Input('dropdown_3', 'value')
 )
 
-def update_graph_2(color_menue):
-    fig = px.scatter(df_2024,
-                     x='Happiness_Score',
-                     y='Cost_of_Living_Index',
-                     title='Happiness Score and Cost of Living Index',
+def update_graph_2(color_menue, col_menue):
+    fig = px.scatter(df,
+                     x=col_menue,
+                     y='Allgemein',
+                     title='Abhängigkeit der Zufriedenheit von unterschiedlichen Faktoren',
                      color_discrete_sequence=[color_menue])
-                     #color='City',
-                     #size='Population',
-                     #hover_data=['City', 'Happiness_Score', 'Cost_of_Living_Index'])
     return fig
 
 if __name__ == '__main__':
