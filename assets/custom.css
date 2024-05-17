@@ -1,0 +1,75 @@
+/* custom.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #D9E6E5;
+    margin: 8px;  /* Entfernt den Standardabstand von 8px um den Körper */
+    padding: 8px;  /* Entfernt den Standardabstand von 8px um den Körper */
+}
+
+#container_1 {
+    margin-bottom: 25px; /* Adjust this value to increase or decrease the space */
+}
+
+h1 {
+    color: #000000;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+h2 {
+    color: #495352;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+h3 {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+p {
+    color: #00D08C;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    margin-top: 25px;
+    margin-bottom: 5px;
+}
+
+#dropdown_1 {
+    background-color: #619785;
+    color: #000000;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+/* Spezifische Anpassungen für sechs Spalten */
+.columns_1_2 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+/* Optionale responsive Anpassungen */
+@media (max-width: 768px) {
+    .columns_1_2 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
