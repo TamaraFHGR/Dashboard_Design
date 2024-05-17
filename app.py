@@ -30,8 +30,8 @@ app.layout = html.Div([
                     html.Div(
                         id='container_1',  # Tab 1 / Spalte 1 / Container 1
                         children=[
-                            html.H2("Allgemeine Lebensqualität in der Schweiz"),
-                            html.H3("Einschätzung der subjektiven Lebensqualität"),
+                            html.H2("Allgemeine Lebensqualität in der Schweiz", style={'color': 'black'}),
+                            html.H3("Einschätzung der subjektiven Lebensqualität", style={'color': 'black'}),
                             html.P("Bitte wählen Sie eine bevorzugte Farbe:", style={'color': 'black'}),  # Textfarbe schwarz
                             dcc.Dropdown(
                                 id='dropdown_1',
@@ -63,7 +63,7 @@ app.layout = html.Div([
                         id='container_3',  # Tab 1 / Spalte 2 / Container 1
                         children=[
                             dcc.Graph(id='graph_2'),
-                            html.P("Bitte wählen Sie ein Merkmal für die Analyse aus:", style={'color': 'black'}),  # Textfarbe schwarz
+                            html.P("Bitte wählen Sie ein Merkmal für den Vergleich aus:", style={'color': 'black'}),  # Textfarbe schwarz
                             dcc.Dropdown(
                                 id='dropdown_2',
                                 options=[{'label': col, 'value': col} for col in df.columns[3:]],
@@ -132,7 +132,6 @@ def update_graph_1(color_menue, selected_years):
 Section 4:
 Define Graph 2
 """
-
 @app.callback(
     Output('graph_2', 'figure'),
     Input('dropdown_1', 'value'),
@@ -140,14 +139,22 @@ Define Graph 2
 )
 
 def update_graph_2(color_menue, col_menue):
-    filtered_df = df[df['Geschlecht'] == 'Alle']
+    if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
+        filtered_df = df[df['Geschlecht'] == 'Alle']
+        fig = px.scatter(filtered_df,
+                         x=col_menue,
+                         y='Allgemein',
+                         title=col_menue,  # Titel, wenn eine Vergleichsvariable ausgewählt ist
+                         color_discrete_sequence=[color_menue])
+        return fig
+    else:
+        return px.scatter(title='Wähle eine Vergleichvariable')  # Wenn keine Vergleichsvariable ausgewählt ist
 
-    fig = px.scatter(filtered_df,
-                     x=col_menue,
-                     y='Allgemein',
-                     title='Abhängigkeit der Zufriedenheit von unterschiedlichen Faktoren',
-                     color_discrete_sequence=[color_menue])
-    return fig
+"""
+-----------------------------------------------------------------------------------------
+Section 5:
+Finish
+"""
 
 if __name__ == '__main__':
     #run the app in server port 8051:
