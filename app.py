@@ -169,14 +169,18 @@ Define Graph 3
 )
 def update_graph_3(selected_years):
     min_year, max_year = selected_years
-    filtered_df = df[(df['Geschlecht'] == 'Männer') & (df['Jahr'] >= min_year) & (df['Jahr'] <= max_year)]
+    # Daten filtern, um nur Männer und Frauen zu erhalten
+    filtered_df = df[(df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isin(['Männer', 'Frauen']))]
 
     fig = px.line(filtered_df,
                   x='Jahr',
                   y='Allgemein',
-                  title='Entwicklung der subjektiven Zufriedenheit bei Männern in der Schweiz')
+                  color='Geschlecht',
+                  title='Entwicklung der subjektiven Zufriedenheit in der Schweiz (Männer vs Frauen)',
+                  color_discrete_map={'Männer': 'blue', 'Frauen': 'red'})
+
     fig.update_layout(bargap=0.05)
-    fig.update_xaxes(tickmode='linear', tick0=filtered_df['Jahr'].min(), dtick=1, tickangle=270)  # Hier wird die x-Achsen-Beschriftung um 180 Grad gedreht
+    fig.update_xaxes(tickmode='linear', tick0=filtered_df['Jahr'].min(), dtick=1, tickangle=270)
     return fig
 
 """
@@ -186,20 +190,26 @@ Define Graph 4
 """
 @app.callback(
     Output('graph_4', 'figure'),
-    Input('dropdown_4', 'value')
+    Input('dropdown_4', 'value'),
+    Input('slider_2', 'value')
 )
-def update_graph_4(col_menue):
+def update_graph_4(col_menue, selected_years):
     if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
-        filtered_df = df[(df['Geschlecht'] == 'Frauen')]
+        min_year, max_year = selected_years
+        # Daten filtern, um nur die Jahre im Bereich und nur Männer und Frauen zu erhalten
+        filtered_df = df[(df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isin(['Männer', 'Frauen']))]
+        
         fig = px.scatter(filtered_df,
                          x=col_menue,
                          y='Allgemein',
-                         title=col_menue + " (Frauen)",  # Titel mit Frauen Vergleich
-                         color='Geschlecht',  # Diagramm nach Geschlecht einfärben
-                         category_orders={"Geschlecht": ["Männer", "Frauen"]})  # Reihenfolge der Kategorien festlegen
+                         color='Geschlecht',
+                         title=f'{col_menue} Vergleich (Männer vs Frauen)',
+                         color_discrete_map={'Männer': 'blue', 'Frauen': 'red'})
+
         return fig
     else:
         return px.scatter(title='Wähle eine Vergleichvariable')  # Wenn keine Vergleichsvariable ausgewählt ist
+
 
 """
 -----------------------------------------------------------------------------------------
