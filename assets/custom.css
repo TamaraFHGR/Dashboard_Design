@@ -1,75 +1,104 @@
-/* custom.css */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #D9E6E5;
-    margin: 8px;  /* Entfernt den Standardabstand von 8px um den Körper */
-    padding: 8px;  /* Entfernt den Standardabstand von 8px um den Körper */
-}
-
-#container_1 {
-    margin-bottom: 25px; /* Adjust this value to increase or decrease the space */
-}
-
-h1 {
-    color: #000000;
-    font-size: 22px;
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 12px;
-}
-
-h2 {
-    color: #495352;
-    font-size: 16px;
-    font-weight: normal;
-    text-align: left;
-    margin-bottom: 12px;
-}
-
-h3 {
-    color: #FFFFFF;
-    font-size: 16px;
-    font-weight: normal;
-    text-align: left;
-    margin-bottom: 12px;
-}
-
-p {
-    color: #00D08C;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: left;
-    margin-top: 25px;
-    margin-bottom: 5px;
-}
-
-#dropdown_1 {
-    background-color: #619785;
-    color: #000000;
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
-}
-
-/* Spezifische Anpassungen für sechs Spalten */
-.columns_1_2 {
+/* set Layout to two columns and two tabs*/
+.columns {
     flex: 0 0 50%;
     max-width: 50%;
+    padding: 10px;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-/* Optionale responsive Anpassungen */
-@media (max-width: 768px) {
-    .columns_1_2 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+/* Set Tab-Layout */
+.tabs {
+    color: #0dc5dd;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    padding: 3px;
+}
+.tab-label {
+    color: #0dc5dd;  /* Farbe des Tab-Labels */
+    font-size: 28px; /* Schriftgröße des Tab-Labels */
+    font-family: Arial, sans-serif; /* Schriftart des Tab-Labels */
+    font-weight: bold; /* Schriftstärke des Tab-Labels */
+    text-align: center; /* Textausrichtung des Tab-Labels */
+    padding: 10px; /* Innenabstand des Tab-Labels */
+}
+.tab-label--selected {
+    background-color: #0dc5dd;  /* Hintergrundfarbe des aktiven Tabs */
+    color: #322c2c;  /* Textfarbe des aktiven Tabs */
+}
+.tab-label--unselected {
+    background-color: #686363;  /* Hintergrundfarbe des inaktiven Tabs */
+    color: #0dc5dd;  /* Textfarbe des inaktiven Tabs */
+}
+
+/* set font layout */
+h1 {    /* "Dashboard zur Zufriedenheit in der Schweiz" */
+    color: #FFFFFFFF;
+    font-size: 28px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 18px;
+    margin-bottom: 12px;
+}
+h2 {    /* "Exploration der allgemeinen Lebensqualität" */
+    color: #FFFFFFFF;
+    font-size: 22px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 32px;
+}
+h3 {    /* "Bitte wählen Sie eine bevorzugte Farbe für die Anzeige der Grafiken:" */
+    color: #0dc5dd;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+h4 {    /* Titel über den Grafiken */
+    color: #FFFFFFFF;
+    font-size: 22px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 18px;
+    margin-bottom: 0px;
+}
+p {     /* Beschriftung von Filter zu Grafiken */
+    color: #FFFFFFFF;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+/* set background layout */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    /*margin: 8px;   Entfernt den Standardabstand von 8px um den Körper */
+    /*"padding: 8px;   Entfernt den Standardabstand von 8px um den Körper */
+}
+
+#dropdown_color {
+    color: #000000;
+    padding: 3px;   /* Dicke des Rahmens */
+    background-color: #0dc5dd;
+    border-radius: 5px; /* runde Ecken */
+    cursor: pointer;    /* Handzeiger */
+    margin-top: 18px;
+    margin-bottom: 18px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+
 }
