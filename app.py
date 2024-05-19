@@ -25,17 +25,22 @@ app.layout = html.Div([
     # Header:
     html.H1("Dashboard zur Zufriedenheit in der Schweiz"),
     html.H2("Exploration der allgemeinen Lebensqualität"),
-    html.H3("Bitte wählen Sie eine bevorzugte Farbe für die Anzeige der Grafiken:"),
-    dcc.Dropdown(id='dropdown_color',
-                 options=[{'label': color, 'value': color} for color in
-                          ['blue', 'red', 'green', 'orange']],
-                 value='blue',
-                 multi=False),
     # Tabs:
     dcc.Tabs([
         # Tab 1:
-        dcc.Tab(label='Gesamtübersicht Schweiz', children=[
+        dcc.Tab(id='tab_1', label='Gesamtanalyse Schweiz', children=[
             html.Div([
+                html.Div([
+                    html.H3("Bitte wählen Sie eine bevorzugte Farbe für die Anzeige der Grafiken:"),
+                    dcc.Dropdown(id='dropdown_color',
+                                 options=[
+                                     {'label': 'Blue', 'value': '#0D9CF9'},
+                                     {'label': 'Red', 'value': '#EE1154'},
+                                     {'label': 'Green', 'value': '#65D920'},
+                                     {'label': 'Yellow', 'value': '#FFFF00'}],
+                                 value='#0D9CF9',
+                                 multi=False),
+                    ], className="row"),
                 html.Div([
                     html.Div(
                         id='container_1',
@@ -71,13 +76,13 @@ app.layout = html.Div([
             ], className="row")
         ], className="tabs"),
         # Tab 2:
-        dcc.Tab(label='Detail-Analyse nach demografischen Merkmalen', children=[
+        dcc.Tab(id='tab_2', label='Analyse nach Geschlecht', children=[
             html.Div([
                 html.Div([
                     html.Div(
                         id='container_3',
                         children=[
-                            html.H4("Titel zur Grafik noch anpassen..."),
+                            html.H4("Entwicklung der subjektiven Zufriedenheit, aufgeteilt nach Geschlecht"),
                             dcc.Graph(id='graph_3'),
                             html.P("Auswahl der Analyse-Jahre:"),
                             dcc.RangeSlider(
@@ -94,7 +99,7 @@ app.layout = html.Div([
                     html.Div(
                         id='container_4',
                         children=[
-                            html.H4("Titel zur Grafik noch anpassen..."),
+                            html.H4("Einflussfaktoren auf die allgemeine Zufriedenheit, aufgeteilt nach Geschlecht"),
                             dcc.Graph(id='graph_4'),
                             html.P("Bitte wählen Sie ein Merkmal für den Vergleich aus:"),
                             dcc.Dropdown(
@@ -106,14 +111,35 @@ app.layout = html.Div([
                     )
                 ], className="columns")
             ], className="row")
-        ], className="tabs")
+        ], className="tabs"),
+        # Tab 3:
+        dcc.Tab(id='tab_3', label='Analyse nach demografischen Merkmalen', children=[
+            html.Div([
+                html.Div([
+                    html.Div(
+                        id='container_5',
+                        children=[
+                            html.H4("Hier entsteht eine weitere Grafik...")
+                        ]
+                    )
+                ], className="columns"),
+                html.Div([
+                    html.Div(
+                        id='container_6',
+                        children=[
+                            html.H4("Hier entsteht ein weitere Grafik...")
+                        ]
+                    )
+                ], className="columns")
+            ], className="row")
+        ], className="tabs"),
     ])
 ])
 
 """
 -----------------------------------------------------------------------------------------
 Section 3:
-Define Graph 1 - Linechart (Allgemein)
+Tab 1: Define Graph 1 - Linechart (Allgemein)
 """
 @app.callback(
     Output('graph_1', 'figure'),
@@ -129,6 +155,10 @@ def update_graph_1(color_menue, selected_years):
                   y='Allgemein',
                   color_discrete_sequence=[color_menue])
 
+    fig.update_traces(marker=dict(size=12, symbol='circle', line=dict(width=1.5, color='#808080')),
+                      mode='markers+lines',
+                      line=dict(width=4))
+
     fig.update_xaxes(dtick=1,
                      tickangle=45,
                      tickmode='linear',
@@ -136,79 +166,111 @@ def update_graph_1(color_menue, selected_years):
                      showgrid=False,
                      showticklabels=True,
                      ticks="",
-                     tickfont=dict(color='#808080'), tickcolor='#808080')
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080')
 
     fig.update_yaxes(showgrid=False,
                      showticklabels=True,
-                     ticks="",
-                     tickfont=dict(color='#808080'), tickcolor='#808080')
+                     ticks='outside',
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     tickformat = ".2f")
 
     fig.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
-        bargap=0.05,
         xaxis_title="",
         yaxis_title="Allgemeiner Zufriedenheits-Index",
-        font=dict(color='#808080')
-    )
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'))
 
     return fig
 
 """
 -----------------------------------------------------------------------------------------
 Section 4:
-Define Graph 2 - Scatter-Plot (Allgemein und Einflussfaktoren)
+Tab 1: Define Graph 2 - Scatter-Plot (Allgemein und Einflussfaktoren)
 """
 @app.callback(
     Output('graph_2', 'figure'),
     Input('dropdown_color', 'value'),
-    Input('dropdown_2', 'value'))
+    Input('dropdown_2', 'value'),
+    Input('slider_1', 'value'))
 
-def update_graph_2(color_menue, col_menue):
+def update_graph_2(color_menue, col_menue, selected_years):
     if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
-        filtered_df = df[df['Geschlecht'] == 'Alle']
+        min_year, max_year = selected_years
+        filtered_df = df[(df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'] == 'Alle')]
 
         fig = px.scatter(filtered_df,
                          x=col_menue,
                          y='Allgemein',
-                         title=f"Zusammenhang allgemeinen Zufriedenheit und {col_menue}",
                          color_discrete_sequence=[color_menue])
 
-        fig.update_xaxes(dtick=1,
-                         tickangle=0,
-                         tickmode='linear',
-                         showgrid=False,
+        fig.update_traces(marker=dict(size=12, line=dict(width=1.5, color='#808080')))
+
+        fig.update_xaxes(showgrid=False,
                          showticklabels=True,
-                         ticks="",
-                         tickfont=dict(color='#808080'), tickcolor='#808080')
+                         ticks='outside',
+                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                         tickcolor='#808080',
+                         tickformat=".2f")
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
-                         ticks="",
-                         tickfont=dict(color='#808080'), tickcolor='#808080')
+                         ticks='outside',
+                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                         tickcolor='#808080',
+                         tickformat=".2f")
 
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
             paper_bgcolor='rgba(0, 0, 0, 0)',
-            bargap=0.05,
             xaxis_title=f"{col_menue}-Index",
             yaxis_title="Allgemeiner Zufriedenheits-Index",
-            font=dict(color='#808080')
-        )
+            font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+            title={
+                'text': f"<i>Vergleich mit {col_menue}<i>",
+                'y': 0.95,
+                'x': 0.5,
+                'xanchor': 'center',
+                'yanchor': 'top',
+                'font': dict(
+                    size=18,
+                    color='white',
+                    family='Arial, sans-serif')})
 
         return fig
+
     else:
-        return px.scatter(title="Bitte wählen Sie einen Einflussfaktor aus.")
+        fig = px.scatter()
+
+        fig.update_layout(
+            plot_bgcolor='rgba(0, 0, 0, 0)',
+            paper_bgcolor='rgba(0, 0, 0, 0)',
+            font=dict(color='#808080'),
+            title={'text': f"<i>Bitte wählen Sie einen Einflussfaktor aus,<br>um Daten einzusehen<i>.",
+                   'y': 0.6,
+                   'x': 0.5,
+                   'xanchor': 'center',
+                   'yanchor': 'top',
+                   'font': dict(
+                       size=22,
+                       color='#808080',
+                       family='Arial, sans-serif')})
+
+        fig.update_xaxes(showgrid=False, zeroline=False, showline=False)
+        fig.update_yaxes(showgrid=False, zeroline=False, showline=False)
+
+        return fig
 
 """
 -----------------------------------------------------------------------------------------
 Section 5:
-Define Graph 3 - Linechart (Allgemein Männer vs Frauen)
+Tab 2: Define Graph 3 - Linechart (Allgemein Männer vs Frauen)
 """
-
 @app.callback(
     Output('graph_3', 'figure'),
-    Input('slider_3', 'value'))
+        Input('slider_3', 'value'))
 
 def update_graph_3(selected_years):
     min_year, max_year = selected_years
@@ -220,7 +282,11 @@ def update_graph_3(selected_years):
                   x='Jahr',
                   y='Allgemein',
                   color='Geschlecht',
-                  color_discrete_map={'Männer': 'blue', 'Frauen': 'red'})
+                  color_discrete_map={'Männer': '#0D9CF9', 'Frauen': '#EE1154'})
+
+    fig.update_traces(marker=dict(size=12, symbol='circle', line=dict(width=1.5, color='#808080')),
+                      mode='markers+lines',
+                      line=dict(width=4))
 
     fig.update_xaxes(dtick=1,
                      tickangle=45,
@@ -228,34 +294,35 @@ def update_graph_3(selected_years):
                      tick0=filtered_df['Jahr'].min(),
                      showgrid=False,
                      showticklabels=True,
-                     ticks="",
-                     tickfont=dict(color='#808080'), tickcolor='#808080')
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080')
 
     fig.update_yaxes(showgrid=False,
                      showticklabels=True,
-                     ticks="",
-                     tickfont=dict(color='#808080'), tickcolor='#808080')
+                     ticks='outside',
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     tickformat = ".2f")
 
     fig.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
         paper_bgcolor='rgba(0, 0, 0, 0)',
-        bargap=0.05,
         xaxis_title="",
         yaxis_title="Allgemeiner Zufriedenheits-Index",
-        font=dict(color='#808080')
-    )
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'))
+
     return fig
 
 """
 -----------------------------------------------------------------------------------------
 Section 6:
-Define Graph 4 - Scatter-Plot (Frauen vs. Männer)
+Tab 2: Define Graph 4 - Scatter-Plot (Frauen vs. Männer)
 """
 
 @app.callback(
     Output('graph_4', 'figure'),
     Input('dropdown_4', 'value'),
-    Input('slider_1', 'value'))
+    Input('slider_3', 'value'))
 
 def update_graph_4(col_menue, selected_years):
     if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
@@ -268,21 +335,23 @@ def update_graph_4(col_menue, selected_years):
                          x=col_menue,
                          y='Allgemein',
                          color='Geschlecht',
-                         title=f"Zusammenhang allgemeinen Zufriedenheit und {col_menue}",
-                         color_discrete_map={'Männer': 'blue', 'Frauen': 'red'})
+                         color_discrete_map={'Männer': '#0D9CF9', 'Frauen': '#EE1154'})
 
-        fig.update_xaxes(dtick=1,
-                         tickangle=0,
-                         tickmode='linear',
-                         showgrid=False,
+        fig.update_traces(marker=dict(size=12, line=dict(width=1.5, color='#808080')))
+
+        fig.update_xaxes(showgrid=False,
                          showticklabels=True,
-                         ticks="",
-                         tickfont=dict(color='#808080'), tickcolor='#808080')
+                         ticks='outside',
+                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                         tickcolor='#808080',
+                         tickformat=".2f")
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
-                         ticks="",
-                         tickfont=dict(color='#808080'), tickcolor='#808080')
+                         ticks='outside',
+                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                         tickcolor='#808080',
+                         tickformat=".2f")
 
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -290,12 +359,41 @@ def update_graph_4(col_menue, selected_years):
             bargap=0.05,
             xaxis_title=f"{col_menue}-Index",
             yaxis_title="Allgemeiner Zufriedenheits-Index",
-            font=dict(color='#808080')
-        )
-        return fig
-    else:
-        return px.scatter(title="Bitte wählen Sie einen Einflussfaktor aus.")
+            font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+            title={
+                'text': f"<i>Vergleich mit {col_menue}<i>",
+                'y': 0.95,
+                'x': 0.5,
+                'xanchor': 'center',
+                'yanchor': 'top',
+                'font': dict(
+                    size=18,
+                    color='white',
+                    family='Arial, sans-serif')})
 
+        return fig
+
+    else:
+        fig = px.scatter()
+
+        fig.update_layout(
+            plot_bgcolor='rgba(0, 0, 0, 0)',
+            paper_bgcolor='rgba(0, 0, 0, 0)',
+            font=dict(color='#808080'),
+            title={'text': f"<i>Bitte wählen Sie einen Einflussfaktor aus,<br>um Daten einzusehen</i>.",
+                   'y': 0.6,
+                   'x': 0.5,
+                   'xanchor': 'center',
+                   'yanchor': 'top',
+                   'font': dict(
+                       size=22,
+                       color='#808080',
+                       family='Arial, sans-serif')})
+
+        fig.update_xaxes(showgrid=False, zeroline=False, showline=False)
+        fig.update_yaxes(showgrid=False, zeroline=False, showline=False)
+
+        return fig
 
 if __name__ == '__main__':
     # run the app in server port 8051:
