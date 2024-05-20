@@ -1,32 +1,50 @@
-/* set Layout to two columns and two tabs*/
+.container {
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
 .columns {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.two {
     flex: 0 0 50%;
     max-width: 50%;
+    padding: 10px;
+}
+.three {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
     padding: 10px;
 }
 .row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
 }
-
-/* set layout for tabs */
 #tab_1, #tab_2, #tab_3 {
     display: flex;
     justify-content: center;
-    margin-top: 16px;
+    margin-top: 12px;
     margin-bottom: 28px;
+    margin-left: 1.5px;
+    margin-right: 1.5px;
 }
 .tab {
-    font-size: 17px;
+    font-size: 15px;
     font-family: Arial, sans-serif;
-    color:  #ADD8E6;
+    color:  #41A1C6;
 }
 .tab-active {
     color: #0dc5dd; /* Active tab background color */
     font-weight: bold;
 }
-/* set font layout */
 h1 {    /* "Dashboard zur Zufriedenheit in der Schweiz" */
     color: #FFFFFFFF;
     font-size: 32px;
@@ -43,15 +61,15 @@ h2 {    /* "Exploration der allgemeinen Lebensqualität" */
     font-weight: normal;
     text-align: center;
     margin-top: 12px;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
-h3 {    /* "Bitte wählen Sie eine bevorzugte Farbe für die Anzeige der Grafiken:" */
+h3 {    /* "Text als Einleitung" */
     color: #FFFFFFFF;
     font-size: 16px;
     font-family: Arial, sans-serif;
     font-weight: normal;
     margin-top: 18px;
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 h4 {    /* Titel über den Grafiken */
     color: #FFFFFFFF;
@@ -64,22 +82,28 @@ h4 {    /* Titel über den Grafiken */
 }
 p {     /* Beschriftung von Filter zu Grafiken */
     color: #FFFFFFFF;
-    font-size: 14px;
+    font-size: 16px;
     font-family: Arial, sans-serif;
     font-weight: normal;
     text-align: center;
     margin-top: 12px;
     margin-bottom: 12px;
 }
-
-/* set background layout */
+li {     /* Bulletpoints in Einleitungstext */
+    color: #FFFFFFFF;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #000000;
     /*margin: 8px;   Entfernt den Standardabstand von 8px um den Körper */
     /*"padding: 8px;   Entfernt den Standardabstand von 8px um den Körper */
 }
-
 #dropdown_color {
     color: #000000;
     padding: 3px;   /* Dicke des Rahmens */
