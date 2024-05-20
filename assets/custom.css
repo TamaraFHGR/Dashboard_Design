@@ -11,29 +11,25 @@
 }
 
 /* set layout for tabs */
-#tab_1 {
+#tab_1, #tab_2, #tab_3 {
     display: flex;
     justify-content: center;
     margin-top: 16px;
     margin-bottom: 28px;
 }
-#tab_2 {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-    margin-bottom: 28px;
+.tab {
+    font-size: 17px;
+    font-family: Arial, sans-serif;
+    color:  #ADD8E6;
 }
-#tab_3 {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-    margin-bottom: 28px;
+.tab-active {
+    color: #0dc5dd; /* Active tab background color */
+    font-weight: bold;
 }
-
 /* set font layout */
 h1 {    /* "Dashboard zur Zufriedenheit in der Schweiz" */
     color: #FFFFFFFF;
-    font-size: 30px;
+    font-size: 32px;
     font-family: Arial, sans-serif;
     font-weight: bold;
     text-align: center;
@@ -42,7 +38,7 @@ h1 {    /* "Dashboard zur Zufriedenheit in der Schweiz" */
 }
 h2 {    /* "Exploration der allgemeinen Lebensqualität" */
     color: #FFFFFFFF;
-    font-size: 26px;
+    font-size: 28px;
     font-family: Arial, sans-serif;
     font-weight: normal;
     text-align: center;

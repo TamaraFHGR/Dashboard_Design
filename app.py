@@ -26,9 +26,9 @@ app.layout = html.Div([
     html.H1("Dashboard zur Zufriedenheit in der Schweiz"),
     html.H2("Exploration der allgemeinen Lebensqualität"),
     # Tabs:
-    dcc.Tabs([
+    dcc.Tabs(id='tabs', value='tab_1', children=[
         # Tab 1:
-        dcc.Tab(id='tab_1', label='Gesamtanalyse Schweiz', children=[
+        dcc.Tab(id='tab_1', label='Gesamtanalyse Schweiz', value='tab_1', className='tab', selected_className='tab-active', children=[
             html.Div([
                 html.Div([
                     html.H3("Bitte wählen Sie eine bevorzugte Farbe für die Anzeige der Grafiken:"),
@@ -74,9 +74,9 @@ app.layout = html.Div([
                     )
                 ], className="columns")
             ], className="row")
-        ], className="tabs"),
+        ]),
         # Tab 2:
-        dcc.Tab(id='tab_2', label='Analyse nach Geschlecht', children=[
+        dcc.Tab(id='tab_2', label='Analyse nach Geschlecht', value='tab_2', className='tab', selected_className='tab-active', children=[
             html.Div([
                 html.Div([
                     html.Div(
@@ -111,9 +111,9 @@ app.layout = html.Div([
                     )
                 ], className="columns")
             ], className="row")
-        ], className="tabs"),
+        ]),
         # Tab 3:
-        dcc.Tab(id='tab_3', label='Analyse nach demografischen Merkmalen', children=[
+        dcc.Tab(id='tab_3', label='Analyse nach demografischen Merkmalen', value='tab_3', className='tab', selected_className='tab-active', children=[
             html.Div([
                 html.Div([
                     html.Div(
@@ -132,7 +132,7 @@ app.layout = html.Div([
                     )
                 ], className="columns")
             ], className="row")
-        ], className="tabs"),
+        ]),
     ])
 ])
 
@@ -174,7 +174,8 @@ def update_graph_1(color_menue, selected_years):
                      ticks='outside',
                      tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                      tickcolor='#808080',
-                     tickformat = ".2f")
+                     tickformat = ".2f",
+                     range=[7.80, 8.30])
 
     fig.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -205,6 +206,7 @@ def update_graph_2(color_menue, col_menue, selected_years):
                          x=col_menue,
                          y='Allgemein',
                          color_discrete_sequence=[color_menue])
+                         #{'Finanzen': 'red', 'Alleinleben': 'green', 'Zusammenleben': 'orange', 'Beziehungen': 'yellow', 'Gesundheit': 'blue', 'Wohnsituation': 'purple', 'Arbeitsbedingungen': 'cyan', 'Arbeitsklima': 'magenta'})
 
         fig.update_traces(marker=dict(size=12, line=dict(width=1.5, color='#808080')))
 
@@ -213,14 +215,16 @@ def update_graph_2(color_menue, col_menue, selected_years):
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
-                         tickformat=".2f")
+                         tickformat=".2f",
+                         range=[6.70, 9.50])
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
-                         tickformat=".2f")
+                         tickformat=".2f",
+                         range=[7.80, 8.30])
 
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -302,7 +306,8 @@ def update_graph_3(selected_years):
                      ticks='outside',
                      tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                      tickcolor='#808080',
-                     tickformat = ".2f")
+                     tickformat = ".2f",
+                     range=[7.80, 8.30])
 
     fig.update_layout(
         plot_bgcolor='rgba(0, 0, 0, 0)',
@@ -344,14 +349,16 @@ def update_graph_4(col_menue, selected_years):
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
-                         tickformat=".2f")
+                         tickformat=".2f",
+                         range=[6.70, 9.50])
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
-                         tickformat=".2f")
+                         tickformat=".2f",
+                         range=[7.80, 8.30])
 
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
