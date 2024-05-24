@@ -220,7 +220,7 @@ Tab 1: Define Graph 2 - Scatter-Plot (Allgemein und Einflussfaktoren)
 def update_graph_2(col_menue, selected_years):
     if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
         min_year, max_year = selected_years
-        filtered_df = df[(df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'] == 'Alle')]
+        filtered_df = df[(df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'] == 'Frauen') | (df['Geschlecht'] == 'Männer')]
 
         melted_df = filtered_df.melt(id_vars=['Jahr', 'Allgemein'], value_vars=col_menue,
                                      var_name='Variable', value_name='Value')
@@ -235,11 +235,13 @@ def update_graph_2(col_menue, selected_years):
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
+                         tickangle=45,
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
-                         tickformat=".2f",
-                         range=[6.70, 9.50])
+                         tickformat=".2f")
+                         #dtick=0.1,
+                         #range=[6.70, 9.50])
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
@@ -369,11 +371,13 @@ def update_graph_4(col_menue, selected_years):
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
+                         tickangle=45,
                          ticks='outside',
                          tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
                          tickcolor='#808080',
                          tickformat=".2f",
-                         range=[6.70, 9.50])
+                         dtick=0.1)
+                         #range=[6.70, 9.50])
 
         fig.update_yaxes(showgrid=False,
                          showticklabels=True,
