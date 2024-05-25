@@ -1,117 +1,207 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #8DC1CCFF;
+}
 .container {
     width: 100%;
-    padding: 0 15px;
-    margin: 0 auto;
+    border: 2px solid #41A1C6;
+    border-radius: 5px;
 }
+/* ----------------------------------- */
+/* 1st Container */
+.theme_dropdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+/* Button für Kontext-Info */
+.theme_dropdown .text_button {
+    justify-self: end;
+    width: 50%;
+    background-color: #41A1C6;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    border: 2px solid #87b9c6;
+    cursor: pointer;
+}
+.text_button:hover {
+    background-color: #3690a9; /* Etwas dunklere Farbe beim Hover */
+}
+/* Dropdown für Theme-Mode */
+.theme_dropdown .dropdown-container {
+    justify-self: start;
+    width: 25%;
+    font-size: 14px;
+}
+/* ----------------------------------- */
+/* Kontext und Info Text */
+.text_box_content {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+.text_box_content ul {
+    list-style: disc;
+    padding-left: 0;
+    margin: 0;
+}
+/* Text als Einleitung */
+.text_box > h3:first-of-type {
+    font-size: 12px;
+    margin-top: 18px;
+    margin-left: 550px;
+}
+/* Bulletpoints */
+.first-column li {
+    font-size: 12px;
+    text-align: left;
+    margin-left: 565px;
+    margin-right: 40px;
+}
+.second-column li {
+    font-size: 12px;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0px;
+}
+/* Quelle Text */
+.text_box > h3:last-of-type {
+    font-size: 12px;
+    margin-top: 18px;
+    margin-left: 550px;
+}
+/* ----------------------------------- */
+/* 2nd Container */
 .header {
-    text-align: center;
-    margin-bottom: 20px;
+    text-align: left;
+    font-weight: bold;
 }
-.columns {
-    padding-left: 15px;
-    padding-right: 15px;
+/* "Dashboard zur Zufriedenheit in der Schweiz" */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+/* "Exploration der allgemeinen Lebensqualität" */
+h2 {
+    font-size: 22px;
+    font-weight: normal;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+/* ----------------------------------- */
+/* Zwei Spalten */
 .two {
     flex: 0 0 50%;
     max-width: 50%;
-    padding: 10px;
 }
-.three {
-    flex: 0 0 33.333333%;
-    max-width: 33.333333%;
-    padding: 10px;
-}
+/* ----------------------------------- */
+/* Zeilen */
 .row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: 10px;
-    margin-right: 10px;
 }
+/* ----------------------------------- */
+/* Tabs - General Style */
 #tab_1, #tab_2, #tab_3 {
     display: flex;
     justify-content: center;
-    margin-top: 12px;
-    margin-bottom: 28px;
-    margin-left: 1.5px;
-    margin-right: 1.5px;
-}
-.tab {
+    align-items: center;
+    height: 20px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 0.5px;
+    margin-right: 0.5px;
     font-size: 15px;
-    font-family: Arial, sans-serif;
-    color:  #41A1C6;
+    color: #1ca3d1;    /* Schriftfarbe */
+    border-radius: 5px;
+    border: 1.5px solid #41A1C6;
+    cursor: pointer;
 }
-.tab-active {
-    color: #0dc5dd; /* Active tab background color */
+/* Dark Mode */
+.dark-tab {
+    background-color: #505050 !important;
+}
+.dark-tab.tab-active {
+    background-color: rgba(208, 231, 237, 0.73) !important;
+    font-weight: bold;
+    color: black !important;
+}
+/* Light Mode */
+.light-tab {
+    background-color: white !important;
+}
+.light-tab.tab-active {
+    background-color: rgba(208, 231, 237, 0.73) !important;
     font-weight: bold;
 }
-h1 {    /* "Dashboard zur Zufriedenheit in der Schweiz" */
-    color: #FFFFFFFF;
-    font-size: 32px;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 18px;
-    margin-bottom: 12px;
+/* ----------------------------------- */
+/* Grafik-Container */
+#container_1, #container_3 {
+    border: 1.5px solid #41A1C6;
+    border-radius: 5px;
+    margin-left: 0px;
+    margin-top: 10px;
+    margin-right: 0px;
+    padding-left: 10px;
+    padding-bottom: 7.5px;
 }
-h2 {    /* "Exploration der allgemeinen Lebensqualität" */
-    color: #FFFFFFFF;
-    font-size: 28px;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
+#container_2, #container_4 {
+    border: 1.5px solid #41A1C6;
+    border-radius: 5px;
+    margin-left: 0;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
-h3 {    /* "Text als Einleitung" */
-    color: #FFFFFFFF;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    margin-top: 18px;
-    margin-bottom: 3px;
-}
-h4 {    /* Titel über den Grafiken */
-    color: #FFFFFFFF;
+
+
+/* Titel über den Grafiken */
+h4 {
     font-size: 22px;
-    font-family: Arial, sans-serif;
     font-weight: bold;
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 0px;
+    text-align: left;
+    margin-top: 6px;
+    margin-left: 10px;
 }
-p {     /* Beschriftung von Filter zu Grafiken */
-    color: #FFFFFFFF;
+/* Beschriftung von Filter zu Grafiken */
+p {
     font-size: 16px;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-li {     /* Bulletpoints in Einleitungstext */
-    color: #FFFFFFFF;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
     font-weight: normal;
     text-align: left;
     margin-top: 0px;
-    margin-bottom: 3px;
+    margin-bottom: 12px;
+    margin-left: 10px;
 }
-body {
-    font-family: Arial, sans-serif;
-    background-color: #000000;
-    /*margin: 8px;   Entfernt den Standardabstand von 8px um den Körper */
-    /*"padding: 8px;   Entfernt den Standardabstand von 8px um den Körper */
+/* ----------------------------------- */
+/* Theme-spezifische Drop-Down Menü Formatierung */
+.dark-dropdown-menu .Select-control,
+.dark-dropdown-menu .Select-menu-outer,
+.dark-dropdown-menu .Select-menu,
+.dark-dropdown-menu .Select-option {
+    background-color: #505050 !important;
+    color: white !important;
 }
-#dropdown_color {
-    color: #000000;
-    padding: 3px;   /* Dicke des Rahmens */
-    background-color: #c7d0d1;
-    border-radius: 5px; /* runde Ecken */
-    cursor: pointer;    /* Handzeiger */
-    margin-top: 6px;
-    margin-bottom: 18px;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
+.dark-dropdown-menu .Select-value,
+.dark-dropdown-menu .Select-placeholder,
+.dark-dropdown-menu .Select-value-label,
+.dark-dropdown-menu .Select--single .Select-value-label,
+.dark-dropdown-menu .Select-option.is-selected {
+    color: white !important;
+}
+.light-dropdown-menu .Select-control,
+.light-dropdown-menu .Select-menu-outer,
+.light-dropdown-menu .Select-menu,
+.light-dropdown-menu .Select-option {
+    background-color: white !important;
+    color: black !important;
+}
+.light-dropdown-menu .Select-value,
+.light-dropdown-menu .Select-placeholder,
+.light-dropdown-menu .Select--single .Select-value-label,
+.light-dropdown-menu .Select-option.is-selected {
+    color: black !important;
 }
