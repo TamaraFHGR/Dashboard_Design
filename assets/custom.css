@@ -18,9 +18,9 @@ body {
 .theme_dropdown .text_button {
     justify-self: end;
     width: 50%;
-    background-color: #41A1C6;
+    background-color: #78868f;
     transition: background-color 0.3s ease;
-    border-radius: 5px;
+    border-radius: 3px;
     border: 2px solid #87b9c6;
     cursor: pointer;
 }
@@ -139,7 +139,7 @@ h2 {
 }
 /* ----------------------------------- */
 /* Grafik-Container */
-#container_1, #container_3 {
+#container_1, #container_3, #container_5 {
     border: 1.5px solid #41A1C6;
     border-radius: 5px;
     margin-left: 0px;
@@ -148,7 +148,7 @@ h2 {
     padding-left: 10px;
     padding-bottom: 7.5px;
 }
-#container_2, #container_4 {
+#container_2, #container_4, #container_6 {
     border: 1.5px solid #41A1C6;
     border-radius: 5px;
     margin-left: 0;
@@ -158,10 +158,9 @@ h2 {
     padding-bottom: 10px;
 }
 
-
 /* Titel über den Grafiken */
 h4 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     text-align: left;
     margin-top: 6px;
@@ -204,4 +203,22 @@ p {
 .light-dropdown-menu .Select--single .Select-value-label,
 .light-dropdown-menu .Select-option.is-selected {
     color: black !important;
+}
+/* ----------------------------------- */
+/* Hover Button */
+.hover-button {
+    width: 12%;
+    height: 30%;
+    background-color: #78868f;
+    color: black;
+    transition: background-color 0.3s ease;
+    border-radius: 3px;
+    border: 1px solid #87b9c6;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    font-size: 12px;
+}
+.hover-button:hover {
+    background-color: #3690a9; /* Etwas dunklere Farbe beim Hover */
 }

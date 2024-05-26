@@ -81,6 +81,11 @@ app.layout = html.Div([
                         id='container_1',
                         children=[
                             html.H4("Entwicklung der allgemeinen Zufriedenheit"),
+                            dbc.Button('Info', id='hover-button_1', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip(
+                                "Das Liniendiagramm zeigt die erhobenen Mittelwerte der 'allgemeinen Zufriedenheit' der "
+                                " Gesamtbevölkerung in der Schweiz pro Jahr.",
+                                target='hover-button_1'),
                             dcc.Graph(id='graph_1', style={'height': '250px'}),
                             html.P("Auswahl der Analyse-Jahre:"),
                             dcc.RangeSlider(
@@ -98,13 +103,21 @@ app.layout = html.Div([
                         id='container_2',
                         children=[
                             html.H4("Zufriedenheit in verschiedenen Teilbereichen"),
+                            dbc.Button('Info', id='hover-button_2', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip(
+                                "Das Streudiagramm ermöglicht den Vergleich zwischen verschiedenen Teilbereichen"
+                                " und der 'allgemeinen Zufriedenheit'. Sie können eine oder mehrere Variablen aus dem Dropdown-Menü"
+                                " auswählen, um zu sehen, ob ein Zusammenhang zwischen den Variablen besteht. Darüber hinaus zeigt"
+                                " die Grafik, in welchen Teilbereichen die Bevölkerung am zufriedensten oder am wenigsten zufrieden ist.",
+                                target='hover-button_2'),
                             dcc.Graph(id='graph_2', style={'height': '250px'}),
                             html.P("Bitte wählen Sie die gewünschten Teilbereiche aus:"),
                             dcc.Dropdown(
                                 id='dropdown_2',
-                                options=[{'label': col, 'value': col} for col in df.columns[3:]],
+                                options=[{'label': col, 'value': col} for col in df.columns[4:]],
                                 value=None,
-                                multi=True)
+                                multi=True,
+                                className='dark-dropdown-menu')
                         ], className='container_2',
                     )
                 ], className="two columns")
@@ -119,6 +132,11 @@ app.layout = html.Div([
                         id='container_3',
                         children=[
                             html.H4("Entwicklung der allgemeinen Zufriedenheit, aufgeteilt nach Geschlecht"),
+                            dbc.Button('Info', id='hover-button_3', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip(
+                                "Das Liniendiagramm zeigt die durchschnittliche 'allgemeine Zufriedenheit' der Schweizer Bevölkerung,"
+                                " aufgeschlüsselt nach Geschlecht.",
+                                target='hover-button_3'),
                             dcc.Graph(id='graph_3', style={'height': '250px'}),
                             html.P("Auswahl der Analyse-Jahre:"),
                             dcc.RangeSlider(
@@ -136,11 +154,17 @@ app.layout = html.Div([
                         id='container_4',
                         children=[
                             html.H4("Zufriedenheit in verschiedenen Teilbereichen, aufgeteilt nach Geschlecht"),
+                            dbc.Button('Info', id='hover-button_4', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip(
+                                "Das Streudiagramm vergleicht einen Teilbereich mit der 'allgemeinen Zufriedenheit'."
+                                " Sie können die gewünschte Variable aus dem Dropdown-Menü auswählen. Daraus lassen sich"
+                                " Unterschiede oder Ähnlichkeiten zwischen der Zufriedenheit von Männer und Frauen erschliessen.",
+                                target='hover-button_4'),
                             dcc.Graph(id='graph_4', style={'height': '250px'}),
                             html.P("Bitte wählen Sie einen Teilbereich aus:"),
                             dcc.Dropdown(
                                 id='dropdown_4',
-                                options=[{'label': col, 'value': col} for col in df.columns[3:]],
+                                options=[{'label': col, 'value': col} for col in df.columns[4:]],
                                 value=None,
                                 multi=False,
                                 className='dark-dropdown-menu')
@@ -157,7 +181,20 @@ app.layout = html.Div([
                     html.Div(
                         id='container_5',
                         children=[
-                            html.H4("Hier entsteht eine weitere Grafik...")
+                            html.H4("Entwicklung der allgemeinen Zufriedenheit in verschiedenen Alterskategorien"),
+                            dbc.Button('Info', id='hover-button_5', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip(
+                                "...",
+                                target='hover-button_5'),
+                            dcc.Graph(id='graph_5', style={'height': '250px'}),
+                            html.P("Auswahl der Analyse-Jahre:"),
+                            dcc.RangeSlider(
+                                id='slider_5',
+                                min=df['Jahr'].min(),
+                                max=df['Jahr'].max(),
+                                step=1,
+                                marks={str(year): str(year) for year in df['Jahr'].unique()},
+                                value=[df['Jahr'].min(), df['Jahr'].max()])
                         ], className='container_5',
                     )
                 ], className="two columns"),
@@ -165,7 +202,17 @@ app.layout = html.Div([
                     html.Div(
                         id='container_6',
                         children=[
-                            html.H4("Hier entsteht ein weitere Grafik...")
+                            html.H4("Vergleich der Zufriedenheit in verschiedenen Teilbereichen und Alterskategorien"),
+                            dbc.Button('Info', id='hover-button_6', n_clicks=0, className="hover-button"),
+                            dbc.Tooltip("...",  target='hover-button_6'),
+                            dcc.Graph(id='graph_6', style={'height': '250px'}),
+                            html.P("Bitte wählen Sie eine Variable aus:"),
+                            dcc.Dropdown(
+                                id='dropdown_6',
+                                options=[{'label': col, 'value': col} for col in df.columns[3:]],
+                                value='Allgemein',
+                                multi=False,
+                                className='dark-dropdown-menu')
                         ], className='container_6',
                     )
                 ], className="two columns")
@@ -178,13 +225,14 @@ app.layout = html.Div([
 
 """
 -----------------------------------------------------------------------------------------
-Section 2.1:
+Section 3:
 Select Theme Mode
 """
 @app.callback(
     [Output('page_content', 'style'),
      Output('dropdown_2', 'className'),
      Output('dropdown_4', 'className'),
+     Output('dropdown_6', 'className'),
      Output('theme_dropdown', 'className'),
      Output('tab_1', 'className'),
      Output('tab_2', 'className'),
@@ -193,7 +241,7 @@ Select Theme Mode
 )
 def update_theme(selected_theme):
     if selected_theme == 'dark':
-        page_style = {'backgroundColor': '#303030', 'color': 'white', 'padding': '20px'}
+        page_style = {'backgroundColor': '#12163b', 'color': 'white', 'padding': '20px'}
         dropdown_class = 'dark-dropdown-menu'
         tab_class = 'dark-tab'
     else:
@@ -201,11 +249,11 @@ def update_theme(selected_theme):
         dropdown_class = 'light-dropdown-menu'
         tab_class = 'light-tab'
 
-    return page_style, dropdown_class, dropdown_class, dropdown_class, tab_class, tab_class, tab_class
+    return page_style, dropdown_class, dropdown_class, dropdown_class, dropdown_class, tab_class, tab_class, tab_class
 
 """
 -----------------------------------------------------------------------------------------
-Section 2.2:
+Section 4:
 Kontext Info Box
 """
 
@@ -226,7 +274,7 @@ def toggle_text_box(n_clicks, current_style):
 
 """
 -----------------------------------------------------------------------------------------
-Section 3:
+Section 5:
 Tab 1: Define Graph 1 - Linechart (Allgemein)
 """
 @app.callback(
@@ -241,7 +289,7 @@ def update_graph_1(selected_years):
                   x='Jahr',
                   y='Allgemein')
 
-    fig.update_traces(marker=dict(size=10, symbol='circle', line=dict(width=1, color='#808080')),
+    fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
                       line=dict(color='#04AAE9', width=4),
                       mode='markers+lines')
 
@@ -269,13 +317,14 @@ def update_graph_1(selected_years):
         xaxis_title=None,
         yaxis_title="Zufriedenheits-Index",
         font=dict(color='#808080', size=14, family='Arial, sans-serif'),
-        margin=dict(l=40, r=20, t=20, b=10))
+        margin=dict(l=40, r=20, t=20, b=10),
+        legend_title_text='')
 
     return fig
 
 """
 -----------------------------------------------------------------------------------------
-Section 4:
+Section 6:
 Tab 1: Define Graph 2 - Scatter-Plot (Allgemein und Einflussfaktoren)
 """
 @app.callback(
@@ -298,7 +347,7 @@ def update_graph_2(col_menue, selected_years):
                          trendline='ols',
                          color_discrete_sequence=px.colors.qualitative.Dark24)
 
-        fig.update_traces(marker=dict(size=10, line=dict(width=1, color='#808080')))
+        fig.update_traces(marker=dict(size=8, line=dict(width=0.5, color='#808080')))
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
@@ -321,18 +370,19 @@ def update_graph_2(col_menue, selected_years):
         fig.update_layout(
             plot_bgcolor='rgba(0, 0, 0, 0)',
             paper_bgcolor='rgba(0, 0, 0, 0)',
-            xaxis_title='',
+            xaxis_title=None,
             yaxis_title="Allgemeine Zufriedenheit",
             font=dict(color='#808080', size=14, family='Arial, sans-serif'),
             title={
-                'text': f"<i>Vergleich von {col_menue}<i>",
                 'y': 0.95,
                 'x': 0.5,
                 'xanchor': 'center',
                 'yanchor': 'top',
                 'font': dict(
                     size=16,
-                    family='Arial, sans-serif')})
+                    family='Arial, sans-serif')},
+            margin=dict(l=40, r=20, t=20, b=10),
+            legend_title_text='')
 
         return fig
 
@@ -360,7 +410,7 @@ def update_graph_2(col_menue, selected_years):
 
 """
 -----------------------------------------------------------------------------------------
-Section 5:
+Section 7:
 Tab 2: Define Graph 3 - Linechart (Allgemein Männer vs Frauen)
 """
 @app.callback(
@@ -377,9 +427,9 @@ def update_graph_3(selected_years):
                   x='Jahr',
                   y='Allgemein',
                   color='Geschlecht',
-                  color_discrete_map={'Männer': '#0D9CF9', 'Frauen': '#EE1154'})
+                  color_discrete_map={'Männer': '#41A1C6', 'Frauen': '#AA8539'})
 
-    fig.update_traces(marker=dict(size=10, symbol='circle', line=dict(width=1, color='#808080')),
+    fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
                       mode='markers+lines',
                       line=dict(width=4))
 
@@ -405,13 +455,15 @@ def update_graph_3(selected_years):
         paper_bgcolor='rgba(0, 0, 0, 0)',
         xaxis_title="",
         yaxis_title="Zufriedenheits-Index",
-        font=dict(color='#808080', size=14, family='Arial, sans-serif'))
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+        margin=dict(l=40, r=20, t=20, b=10),
+        legend_title_text='')
 
     return fig
 
 """
 -----------------------------------------------------------------------------------------
-Section 6:
+Section 8:
 Tab 2: Define Graph 4 - Scatter-Plot (Frauen vs. Männer)
 """
 
@@ -432,9 +484,9 @@ def update_graph_4(col_menue, selected_years):
                          y='Allgemein',
                          color='Geschlecht',
                          trendline='ols',
-                         color_discrete_map={'Männer': '#0D9CF9', 'Frauen': '#EE1154'})
+                         color_discrete_map={'Männer': '#41A1C6', 'Frauen': '#AA8539'})
 
-        fig.update_traces(marker=dict(size=10, line=dict(width=1, color='#808080')))
+        fig.update_traces(marker=dict(size=8, line=dict(width=0.5, color='#808080')))
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
@@ -462,14 +514,15 @@ def update_graph_4(col_menue, selected_years):
             yaxis_title="Allgemeine Zufriedenheit",
             font=dict(color='#808080', size=14, family='Arial, sans-serif'),
             title={
-                'text': f"<i>Vergleich mit {col_menue}<i>",
                 'y': 0.95,
                 'x': 0.5,
                 'xanchor': 'center',
                 'yanchor': 'top',
                 'font': dict(
                     size=16,
-                    family='Arial, sans-serif')})
+                    family='Arial, sans-serif')},
+            margin=dict(l=40, r=20, t=20, b=10),
+            legend_title_text='')
 
         return fig
 
@@ -494,6 +547,125 @@ def update_graph_4(col_menue, selected_years):
         fig.update_yaxes(showgrid=False, zeroline=False, showline=False)
 
         return fig
+
+"""
+-----------------------------------------------------------------------------------------
+Section 9:
+Tab 3: Define Graph 5 - Linechart (Alterskategorien)
+"""
+@app.callback(
+    Output('graph_5', 'figure'),
+        Input('slider_5', 'value'))
+
+def update_graph_5(selected_years):
+    min_year, max_year = selected_years
+    # Daten filtern, um nur Daten ohne Geschlecht zu erhalten
+    filtered_df = df[
+        (df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isna())]
+
+    fig = px.line(filtered_df,
+                  x='Jahr',
+                  y='Allgemein',
+                  color='Alterskategorie',
+                  color_discrete_map={'16-17 Jahre': '#7fc97f',
+                                      '18-24 Jahre': '#beaed4',
+                                      '25-49 Jahre': '#fdc086',
+                                      '50-64 Jahre': '#ffff99',
+                                      '65 Jahre +': '#386cb0'})
+
+    fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
+                      mode='markers+lines',
+                      line=dict(width=4))
+
+    fig.update_xaxes(dtick=2,
+                     tickangle=0,
+                     tickmode='linear',
+                     tick0=filtered_df['Jahr'].min(),
+                     showgrid=False,
+                     showticklabels=True,
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080')
+
+    fig.update_yaxes(dtick=0.2,
+                     showgrid=False,
+                     showticklabels=True,
+                     ticks='outside',
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     tickformat = ".2f",
+                     range=[7.60, 8.90])
+
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        xaxis_title="",
+        yaxis_title="Zufriedenheits-Index",
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+        margin=dict(l=40, r=20, t=20, b=10),
+        legend_title_text='')
+
+    return fig
+
+"""
+-----------------------------------------------------------------------------------------
+Section 10:
+Tab 3: Define Graph 6 - Barchart (Alterskategorien)
+"""
+@app.callback(
+    Output('graph_6', 'figure'),
+    Input('slider_5', 'value'),
+    Input('dropdown_6', 'value')
+)
+def update_graph_6(selected_years, selected_variable):
+    min_year, max_year = selected_years
+    # Daten filtern, um nur Daten ohne Geschlecht zu erhalten
+    filtered_df = df[
+        (df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isna())]
+
+    # Mittelwert der ausgewählten Variablen für jede Alterskategorie berechnen
+    mean_df = filtered_df.groupby('Alterskategorie')[selected_variable].mean().reset_index()
+
+    fig = px.bar(mean_df,
+                 x=selected_variable,
+                 y='Alterskategorie',
+                 orientation='h',
+                 color='Alterskategorie',
+                 text='Alterskategorie',
+                 color_discrete_map={'16-17 Jahre': '#7fc97f',
+                                     '18-24 Jahre': '#beaed4',
+                                     '25-49 Jahre': '#fdc086',
+                                     '50-64 Jahre': '#ffff99',
+                                     '65 Jahre +': '#386cb0'})
+
+    fig.update_traces(marker=dict(line=dict(width=0.5, color='#808080')),
+                      textposition='inside',
+                      textfont=dict(color='black', size=14, family='Arial, sans-serif'))
+
+    fig.update_xaxes(showgrid=False,
+                     showticklabels=True,
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080')
+
+    fig.update_yaxes(showgrid=False,
+                     showticklabels=False,
+                     ticks=None,
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080')
+
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        xaxis_title=selected_variable,
+        yaxis_title=None,
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+        margin=dict(l=40, r=20, t=20, b=10),
+        legend_title_text='',
+        showlegend=False)
+
+    return fig
+
+
+
 
 if __name__ == '__main__':
     # run the app in server port 8051:
