@@ -4,7 +4,7 @@ body {
 }
 .container {
     width: 100%;
-    border: 2px solid #41A1C6;
+    border: 2px solid #246068;
     border-radius: 5px;
 }
 /* ----------------------------------- */
@@ -21,7 +21,7 @@ body {
     background-color: #78868f;
     transition: background-color 0.3s ease;
     border-radius: 3px;
-    border: 2px solid #87b9c6;
+    border: 1.5px solid #246068;
     cursor: pointer;
 }
 .text_button:hover {
@@ -115,9 +115,9 @@ h2 {
     margin-left: 0.5px;
     margin-right: 0.5px;
     font-size: 15px;
-    color: #1ca3d1;    /* Schriftfarbe */
+    color: black;    /* Schriftfarbe */ /*1ca3d1*/
     border-radius: 5px;
-    border: 1.5px solid #41A1C6;
+    border: 1.5px solid #246068;
     cursor: pointer;
 }
 /* Dark Mode */
@@ -140,7 +140,7 @@ h2 {
 /* ----------------------------------- */
 /* Grafik-Container */
 #container_1, #container_3, #container_5 {
-    border: 1.5px solid #41A1C6;
+    border: 1.5px solid #246068;
     border-radius: 5px;
     margin-left: 0px;
     margin-top: 10px;
@@ -149,7 +149,7 @@ h2 {
     padding-bottom: 7.5px;
 }
 #container_2, #container_4, #container_6 {
-    border: 1.5px solid #41A1C6;
+    border: 1.5px solid #246068;
     border-radius: 5px;
     margin-left: 0;
     margin-top: 10px;
@@ -213,7 +213,7 @@ p {
     color: black;
     transition: background-color 0.3s ease;
     border-radius: 3px;
-    border: 1px solid #87b9c6;
+    border: 1px solid #246068;
     cursor: pointer;
     text-align: center;
     display: inline-block;

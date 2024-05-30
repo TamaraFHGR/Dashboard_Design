@@ -241,7 +241,7 @@ Select Theme Mode
 )
 def update_theme(selected_theme):
     if selected_theme == 'dark':
-        page_style = {'backgroundColor': '#12163b', 'color': 'white', 'padding': '20px'}
+        page_style = {'backgroundColor': '#282E3B', 'color': 'white', 'padding': '20px'}
         dropdown_class = 'dark-dropdown-menu'
         tab_class = 'dark-tab'
     else:
@@ -290,7 +290,7 @@ def update_graph_1(selected_years):
                   y='Allgemein')
 
     fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
-                      line=dict(color='#04AAE9', width=4),
+                      line=dict(color='#427A82', width=4),
                       mode='markers+lines')
 
     fig.update_xaxes(dtick=2,
@@ -340,14 +340,18 @@ def update_graph_2(col_menue, selected_years):
         melted_df = filtered_df.melt(id_vars=['Jahr', 'Allgemein'], value_vars=col_menue,
                                      var_name='Variable', value_name='Value')
 
+        colors = ['#427A82','#00FFFF','white','#69969C','#093030','#246068','black','#0E464E']
+
+        color_map = {col_menue[i]: colors[i] for i in range(len(col_menue))}
+
         fig = px.scatter(melted_df,
                          x='Value',
                          y='Allgemein',
                          color='Variable',
                          trendline='ols',
-                         color_discrete_sequence=px.colors.qualitative.Dark24)
+                         color_discrete_map=color_map)
 
-        fig.update_traces(marker=dict(size=8, line=dict(width=0.5, color='#808080')))
+        fig.update_traces(marker=dict(size=10, line=dict(width=0.5, color='#808080')))
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
@@ -427,7 +431,7 @@ def update_graph_3(selected_years):
                   x='Jahr',
                   y='Allgemein',
                   color='Geschlecht',
-                  color_discrete_map={'Männer': '#41A1C6', 'Frauen': '#AA8539'})
+                  color_discrete_map={'Männer': '#0E464E', 'Frauen': '#69969C'})
 
     fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
                       mode='markers+lines',
@@ -484,9 +488,9 @@ def update_graph_4(col_menue, selected_years):
                          y='Allgemein',
                          color='Geschlecht',
                          trendline='ols',
-                         color_discrete_map={'Männer': '#41A1C6', 'Frauen': '#AA8539'})
+                         color_discrete_map={'Männer': '#0E464E', 'Frauen': '#69969C'})
 
-        fig.update_traces(marker=dict(size=8, line=dict(width=0.5, color='#808080')))
+        fig.update_traces(marker=dict(size=10, line=dict(width=0.5, color='#808080')))
 
         fig.update_xaxes(showgrid=False,
                          showticklabels=True,
@@ -567,13 +571,13 @@ def update_graph_5(selected_years):
                   x='Jahr',
                   y='Allgemein',
                   color='Alterskategorie',
-                  color_discrete_map={'16-17 Jahre': '#7fc97f',
-                                      '18-24 Jahre': '#beaed4',
-                                      '25-49 Jahre': '#fdc086',
-                                      '50-64 Jahre': '#ffff99',
-                                      '65 Jahre +': '#386cb0'})
+                  color_discrete_map={'16-17 Jahre': '#69969C',
+                                     '18-24 Jahre': '#427A82',
+                                     '25-49 Jahre': '#246068',
+                                     '50-64 Jahre': '#0E464E',
+                                     '65 Jahre +': '#093030'})
 
-    fig.update_traces(marker=dict(size=8, symbol='circle', line=dict(width=0.5, color='#808080')),
+    fig.update_traces(marker=dict(size=6, symbol='circle', line=dict(width=0.3, color='#808080')),
                       mode='markers+lines',
                       line=dict(width=4))
 
@@ -602,7 +606,8 @@ def update_graph_5(selected_years):
         yaxis_title="Zufriedenheits-Index",
         font=dict(color='#808080', size=14, family='Arial, sans-serif'),
         margin=dict(l=40, r=20, t=20, b=10),
-        legend_title_text='')
+        legend_title_text='',
+        showlegend=True)
 
     return fig
 
@@ -631,15 +636,15 @@ def update_graph_6(selected_years, selected_variable):
                  orientation='h',
                  color='Alterskategorie',
                  text='Alterskategorie',
-                 color_discrete_map={'16-17 Jahre': '#7fc97f',
-                                     '18-24 Jahre': '#beaed4',
-                                     '25-49 Jahre': '#fdc086',
-                                     '50-64 Jahre': '#ffff99',
-                                     '65 Jahre +': '#386cb0'})
+                 color_discrete_map={'16-17 Jahre': '#69969C',
+                                     '18-24 Jahre': '#427A82',
+                                     '25-49 Jahre': '#246068',
+                                     '50-64 Jahre': '#0E464E',
+                                     '65 Jahre +': '#093030'})
 
     fig.update_traces(marker=dict(line=dict(width=0.5, color='#808080')),
                       textposition='inside',
-                      textfont=dict(color='black', size=14, family='Arial, sans-serif'))
+                      textfont=dict(color='white', size=14, family='Arial, sans-serif'))
 
     fig.update_xaxes(showgrid=False,
                      showticklabels=True,
