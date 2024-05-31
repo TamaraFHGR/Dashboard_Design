@@ -62,19 +62,20 @@ app.layout = html.Div([
                 ], className='second-column'),
             ]),
         ]),
-        html.H3("Quelle: © BFS – Erhebung über die Einkommen und Lebensbedingungen, Datenstand: 20.12.2023")
+        html.H3("Quelle: © BFS – Erhebung über die Einkommen und Lebensbedingungen, Datenstand: 20.12.2023"
+                " Erstellt am: 31.05.2024 durch Nyffeler Tamara, Pellegatta Serge, Reiser Sharon")
     ]),
 
     # Header:
     html.Div([
-    html.H1("Dashboard zur Zufriedenheit in der Schweiz – Exploration der subjektiven Lebensqualität"),
+    html.H1("Dashboard zur Exploration der Zufriedenheit in der Schweiz"),
     ], className='header'),
 
     # Tabs:
     dcc.Tabs(id='tabs', value='tab_1', children=[
 
         # Tab 1:
-        dcc.Tab(id='tab_1', label='Gesamtanalyse Schweiz', value='tab_1', className='tab dark-tab', selected_className='tab-active', children=[
+        dcc.Tab(id='tab_1', label='Analyse der Gesamtbevölkerung', value='tab_1', className='tab dark-tab', selected_className='tab-active', children=[
             html.Div([
                 html.Div([
                     html.Div(
@@ -102,7 +103,7 @@ app.layout = html.Div([
                     html.Div(
                         id='container_2',
                         children=[
-                            html.H4("Zufriedenheit in verschiedenen Teilbereichen"),
+                            html.H4("Zusammenhang zwischen den Teilbereichen"),
                             dbc.Button('Info', id='hover-button_2', n_clicks=0, className="hover-button"),
                             dbc.Tooltip(
                                 "Das Streudiagramm ermöglicht den Vergleich zwischen verschiedenen Teilbereichen"
@@ -131,7 +132,8 @@ app.layout = html.Div([
                     html.Div(
                         id='container_3',
                         children=[
-                            html.H4("Entwicklung der allgemeinen Zufriedenheit, aufgeteilt nach Geschlecht"),
+                            html.H4("Entwicklung der allgemeinen Zufriedenheit"),
+                            html.P("Nach Geschlecht"),
                             dbc.Button('Info', id='hover-button_3', n_clicks=0, className="hover-button"),
                             dbc.Tooltip(
                                 "Das Liniendiagramm zeigt die durchschnittliche 'allgemeine Zufriedenheit' der Schweizer Bevölkerung,"
@@ -153,7 +155,8 @@ app.layout = html.Div([
                     html.Div(
                         id='container_4',
                         children=[
-                            html.H4("Zufriedenheit in verschiedenen Teilbereichen, aufgeteilt nach Geschlecht"),
+                            html.H4("Zusammenhang zwischen den Teilbereichen"),
+                            html.P("Nach Geschlecht"),
                             dbc.Button('Info', id='hover-button_4', n_clicks=0, className="hover-button"),
                             dbc.Tooltip(
                                 "Das Streudiagramm vergleicht einen Teilbereich mit der 'allgemeinen Zufriedenheit'."
@@ -175,16 +178,18 @@ app.layout = html.Div([
         ]),
 
         # Tab 3:
-        dcc.Tab(id='tab_3', label='Analyse nach demografischen Merkmalen', value='tab_3', className='tab dark-tab', selected_className='tab-active', children=[
+        dcc.Tab(id='tab_3', label='Analyse nach Alterskategorie', value='tab_3', className='tab dark-tab', selected_className='tab-active', children=[
             html.Div([
                 html.Div([
                     html.Div(
                         id='container_5',
                         children=[
-                            html.H4("Entwicklung der allgemeinen Zufriedenheit in verschiedenen Alterskategorien"),
+                            html.H4("Entwicklung der allgemeinen Zufriedenheit"),
+                            html.P("Nach Alterskategorie"),
                             dbc.Button('Info', id='hover-button_5', n_clicks=0, className="hover-button"),
                             dbc.Tooltip(
-                                "...",
+                                "Das Liniendiagramm zeigt die durchschnittliche 'allgemeine Zufriedenheit' der Schweizer Bevölkerung,"
+                                " aufgeschlüsselt nach Alterskategorie.",
                                 target='hover-button_5'),
                             dcc.Graph(id='graph_5', style={'height': '250px'}),
                             html.P("Auswahl der Analyse-Jahre:"),
@@ -202,11 +207,15 @@ app.layout = html.Div([
                     html.Div(
                         id='container_6',
                         children=[
-                            html.H4("Vergleich der Zufriedenheit in verschiedenen Teilbereichen und Alterskategorien"),
+                            html.H4("Darstellung von Teilbereichen"),
+                            html.P("Nach Alterskategorie"),
                             dbc.Button('Info', id='hover-button_6', n_clicks=0, className="hover-button"),
-                            dbc.Tooltip("...",  target='hover-button_6'),
+                            dbc.Tooltip(
+                                "Das Balkendiagramm stellt die Zufriedenheit pro Alterskategorie in einem ausgewählten Teilbereich dar."
+                                " Sie können den gewünschten Teilbereich aus dem Dropdown-Menü auswählen.",
+                                        target='hover-button_6'),
                             dcc.Graph(id='graph_6', style={'height': '250px'}),
-                            html.P("Bitte wählen Sie eine Variable aus:"),
+                            html.P("Bitte wählen Sie einen Teilbereich aus:"),
                             dcc.Dropdown(
                                 id='dropdown_6',
                                 options=[{'label': col, 'value': col} for col in df.columns[3:]],
