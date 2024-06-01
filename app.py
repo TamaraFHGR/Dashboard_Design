@@ -108,8 +108,9 @@ app.layout = html.Div([
                             dbc.Tooltip(
                                 "Das Streudiagramm ermöglicht den Vergleich zwischen verschiedenen Teilbereichen"
                                 " und der 'allgemeinen Zufriedenheit'. Sie können eine oder mehrere Variablen aus dem Dropdown-Menü"
-                                " auswählen, um zu sehen, ob ein Zusammenhang zwischen den Variablen besteht. Darüber hinaus zeigt"
-                                " die Grafik, in welchen Teilbereichen die Bevölkerung am zufriedensten oder am wenigsten zufrieden ist.",
+                                " auswählen, um zu analysieren, ob ein Zusammenhang zwischen den gewählten Teilbereichen und der"
+                                " 'allgemeinen Zufriedenheit' besteht: z.B. je höher die Zufriedenheit mit der Wohnsituation, desto"
+                                " höher ist auch die allgemeine Zufriedenheit.",
                                 target='hover-button_2'),
                             dcc.Graph(id='graph_2', style={'height': '250px'}),
                             html.P("Bitte wählen Sie die gewünschten Teilbereiche aus:"),
@@ -155,20 +156,19 @@ app.layout = html.Div([
                     html.Div(
                         id='container_4',
                         children=[
-                            html.H4("Zusammenhang zwischen den Teilbereichen"),
+                            html.H4("Verteilung der Zufriedenheiten pro Teilbereich"),
                             html.P("Nach Geschlecht"),
                             dbc.Button('Info', id='hover-button_4', n_clicks=0, className="hover-button"),
                             dbc.Tooltip(
-                                "Das Streudiagramm vergleicht einen Teilbereich mit der 'allgemeinen Zufriedenheit'."
-                                " Sie können die gewünschte Variable aus dem Dropdown-Menü auswählen. Daraus lassen sich"
-                                " Unterschiede oder Ähnlichkeiten zwischen der Zufriedenheit von Männer und Frauen erschliessen.",
+                                "Das Histogramm zeigt die Verteilung der Zufriedenheitswerte in einem bestimmten Teilbereich,"
+                                " aufgeschlüsselt nach Geschlecht. Sie können den gewünschten Teilbereich aus dem Dropdown-Menü auswählen.",
                                 target='hover-button_4'),
                             dcc.Graph(id='graph_4', style={'height': '250px'}),
                             html.P("Bitte wählen Sie einen Teilbereich aus:"),
                             dcc.Dropdown(
                                 id='dropdown_4',
-                                options=[{'label': col, 'value': col} for col in df.columns[4:]],
-                                value=None,
+                                options=[{'label': col, 'value': col} for col in df.columns[3:]],
+                                value='Allgemein',
                                 multi=False,
                                 className='dark-dropdown-menu')
                         ], className='container_4',
@@ -479,87 +479,76 @@ def update_graph_3(selected_years):
 Section 8:
 Tab 2: Define Graph 4 - Scatter-Plot (Frauen vs. Männer)
 """
-
 @app.callback(
     Output('graph_4', 'figure'),
     Input('dropdown_4', 'value'),
     Input('slider_3', 'value'))
 
 def update_graph_4(col_menue, selected_years):
-    if col_menue:  # Überprüfen, ob eine Vergleichsvariable ausgewählt ist
-        min_year, max_year = selected_years
-        # Daten filtern, um nur die Jahre im Bereich und nur Männer und Frauen zu erhalten
-        filtered_df = df[
-            (df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isin(['Männer', 'Frauen']))]
+    min_year, max_year = selected_years
+    # Daten filtern, um nur die Jahre im Bereich und nur Männer und Frauen zu erhalten
+    filtered_df = df[
+        (df['Jahr'] >= min_year) & (df['Jahr'] <= max_year) & (df['Geschlecht'].isin(['Männer', 'Frauen']))]
 
-        fig = px.scatter(filtered_df,
-                         x=col_menue,
-                         y='Allgemein',
-                         color='Geschlecht',
-                         trendline='ols',
-                         color_discrete_map={'Männer': '#0E464E', 'Frauen': '#69969C'})
+    fig = px.histogram(filtered_df,
+                       x=col_menue,
+                       color='Geschlecht',
+                       facet_col='Geschlecht',
+                       facet_col_spacing=0.08,
+                       color_discrete_map={'Männer': '#0E464E', 'Frauen': '#69969C'})
 
-        fig.update_traces(marker=dict(size=10, line=dict(width=0.5, color='#808080')))
+    fig.update_traces(marker=dict(line=dict(width=0.5, color='#808080')))
 
-        fig.update_xaxes(showgrid=False,
-                         showticklabels=True,
-                         tickangle=0,
-                         ticks='outside',
-                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
-                         tickcolor='#808080',
-                         tickformat=".2f",
-                         dtick=0.2)
-                         #range=[6.70, 9.50])
+    min_val = filtered_df[col_menue].min()
+    max_val = filtered_df[col_menue].max()
 
-        fig.update_yaxes(showgrid=False,
-                         showticklabels=True,
-                         ticks='outside',
-                         tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
-                         tickcolor='#808080',
-                         tickformat=".2f",
-                         range=[7.80, 8.30])
+    fig.update_xaxes(showgrid=False,
+                     showticklabels=True,
+                     tickangle=0,
+                     ticks='outside',
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     tickvals=[min_val, max_val],  # Nur minimale und maximale Werte anzeigen
+                     ticktext=[f'{min_val:.2f}', f'{max_val:.2f}'],
+                     title_text='')
 
-        fig.update_layout(
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-            paper_bgcolor='rgba(0, 0, 0, 0)',
-            bargap=0.05,
-            xaxis_title=f"{col_menue}",
-            yaxis_title="Allgemeine Zufriedenheit",
-            font=dict(color='#808080', size=14, family='Arial, sans-serif'),
-            title={
-                'y': 0.95,
-                'x': 0.5,
-                'xanchor': 'center',
-                'yanchor': 'top',
-                'font': dict(
-                    size=16,
-                    family='Arial, sans-serif')},
-            margin=dict(l=40, r=20, t=20, b=10),
-            legend_title_text='')
+    fig.update_yaxes(showgrid=False,
+                     showticklabels=True,
+                     dtick=2,
+                     ticks='outside',
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     matches=None, col=1)
 
-        return fig
+    fig.update_yaxes(showgrid=False,
+                     showticklabels=False,
+                     ticks=None,
+                     tickfont=dict(color='#808080', size=14, family='Arial, sans-serif'),
+                     tickcolor='#808080',
+                     matches=None, col=2)
 
-    else:
-        fig = px.scatter()
+    fig.update_layout(
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        bargap=0.06,
+        yaxis_title="Häufigkeit",
+        font=dict(color='#808080', size=14, family='Arial, sans-serif'),
+        title={
+            'text': f"Zufriedenheiten im Bereich '{col_menue}'",
+            'y': 1.0,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': dict(
+                size=16,
+                family='Arial, sans-serif')},
+        margin=dict(l=40, r=20, t=20, b=10),
+        legend_title_text='')
 
-        fig.update_layout(
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-            paper_bgcolor='rgba(0, 0, 0, 0)',
-            font=dict(color='#808080'),
-            title={'text': f"<i>Bitte wählen Sie einen Teilbereich aus,<br>um Daten einzusehen</i>.",
-                   'y': 0.6,
-                   'x': 0.5,
-                   'xanchor': 'center',
-                   'yanchor': 'top',
-                   'font': dict(
-                       size=16,
-                       color='#808080',
-                       family='Arial, sans-serif')})
+    for annotation in fig['layout']['annotations']:
+        annotation['text'] = ''
 
-        fig.update_xaxes(showgrid=False, zeroline=False, showline=False)
-        fig.update_yaxes(showgrid=False, zeroline=False, showline=False)
-
-        return fig
+    return fig
 
 """
 -----------------------------------------------------------------------------------------
