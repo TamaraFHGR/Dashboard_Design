@@ -62,8 +62,8 @@ app.layout = html.Div([
                 ], className='second-column'),
             ]),
         ]),
-        html.H3("Quelle: © BFS – Erhebung über die Einkommen und Lebensbedingungen, Datenstand: 20.12.2023"
-                " Erstellt am: 31.05.2024 durch Nyffeler Tamara, Pellegatta Serge, Reiser Sharon")
+        html.H3("Quelle: © BFS – Erhebung über die Einkommen und Lebensbedingungen, Datenstand: 26.03.2024"
+                " Erstellt am: 31.05.2024 durch Nyffeler Tamara, Pellegatta Serge, Reiser Sharon im Auftrag der FHGR")
     ]),
 
     # Header:
